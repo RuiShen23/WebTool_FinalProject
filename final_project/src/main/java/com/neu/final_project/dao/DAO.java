@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class DAO {
+public abstract class DAO {
 	
 	private static final Logger log = Logger.getAnonymousLogger();
     

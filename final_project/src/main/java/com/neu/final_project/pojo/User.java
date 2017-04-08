@@ -2,15 +2,20 @@ package com.neu.final_project.pojo;
 
 import java.util.Set;
 
-public class User {
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user_table")
+public class User extends Account{
 	
 	private int userId;
-	private String username;
-	private String password;
-	private String email;
-	private String usertype;
-	private Set<Food> unwantedFood;
-	private Set<Meal> savedMeal;
+	private Set<Food> unwantedFood; //m-m, one way
+	private Set<Meal> savedMeal; //m-m, one way
+	
+	public User(){
+		
+	}	
 	
 	public int getUserId() {
 		return userId;
@@ -20,37 +25,23 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getUsername() {
-		return username;
+	public Set<Food> getUnwantedFood() {
+		return unwantedFood;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUnwantedFood(Set<Food> unwantedFood) {
+		this.unwantedFood = unwantedFood;
 	}
 
-	public String getPassword() {
-		return password;
+	public Set<Meal> getSavedMeal() {
+		return savedMeal;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setSavedMeal(Set<Meal> savedMeal) {
+		this.savedMeal = savedMeal;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getUsertype() {
-		return usertype;
-	}
-
-	public void setUsertype(String usertype) {
-		this.usertype = usertype;
-	}
+	
+	
 
 
 }

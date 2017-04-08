@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class Post {
 	
 	private int postId;
-	private User postUser; //Ë«Ïò£¬1-m
+	private User postUser; //1-m, two way
 	private String postTitle;
 	private String postContent;
 	private String attachmentPath;
