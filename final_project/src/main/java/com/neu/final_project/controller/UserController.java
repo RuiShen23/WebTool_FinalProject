@@ -8,37 +8,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UserController {
 
 	//redirect to register page
-	@RequestMapping(value="/register", method=RequestMethod.GET) 
+	@RequestMapping(value="/user/register", method=RequestMethod.GET) 
 	public void showRegisterPage(){
 		
 	}
 	
 	//process register request
-	@RequestMapping(value="/register", method=RequestMethod.POST)
+	@RequestMapping(value="/user/register", method=RequestMethod.POST)
 	public void registerUser(){
 		
 	}
 	
 	//redirect to login page
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@RequestMapping(value="/user/login", method=RequestMethod.GET)
 	public void showLoginPage(){
 		
 	}
 	
 	//process user login
-	@RequestMapping(value="/login", method=RequestMethod.POST)
+	@RequestMapping(value="/user/login", method=RequestMethod.POST)
 	public void loginUser(){
 		
 	}
 	
 	//redirect to upgrade page
-	@RequestMapping(value="/upgrade-premier-user", method=RequestMethod.GET)
+	@RequestMapping(value="/user/upgrade-premier-user", method=RequestMethod.GET)
 	public void showUpgradePage(){
 		
 	}
 	
 	//process upgrade request
-	@RequestMapping(value="/upgrade-premier-user", method=RequestMethod.POST)
+	@RequestMapping(value="/user/upgrade-premier-user", method=RequestMethod.POST)
 	public void upgradeUser(){
 		
 	}

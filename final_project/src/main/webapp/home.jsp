@@ -14,17 +14,17 @@
 
 
 <div>
-	<!--这里该有一段JS来判断登录状态，如果已经登录了就只显示第三个button，如果没有就不显示第三个button-->
-	<button type="submit" name="login" formaction="/login" formmethod="get" >Log in</button>
-	<button type="submit" name="register" formaction="/register" formmethod="get">Register</button> 
+	<!--这里该有一段JS/Interpreter来判断登录状态，如果已经登录了就只显示第三个button，如果没有就不显示第三个button-->
+	<button type="submit" name="login" formaction="/user/login" formmethod="get" >Log in</button>
+	<button type="submit" name="register" formaction="/user/register" formmethod="get">Register</button> 
     <!--并不知道该怎么搞，有点关系姑且放到一起了-->
-	<button type="submit" name="userhome" formaction="/userhome" formmethod="post">User Home</button>
+	<button type="submit" name="userhome" formaction="/user/userhome" formmethod="post">User Home</button>
 </div>
 <br>
 
 <div>
 	<blockquote>
-	  <a href="跳到menus page">View All Menus</a> <br>
+	  <a href="跳到menus page">View All Food</a> <br>
   </blockquote>
 </div>
 

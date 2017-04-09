@@ -1,36 +1,38 @@
 package com.neu.final_project.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="employee_table")
+@Table(name="employee")
+@PrimaryKeyJoinColumn(name="employee_id")
 public class Employee extends Account{
 
-	private int employeeId;
 	private String firstName;
 	private String lastName;
 	
+	public Employee() {
+		
+	}
 	
-	public int getEmployeeId() {
-		return employeeId;
-	}
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
-	}
-	public String getFirstName() {
-		return firstName;
-	}
+	@Column(name="first_name")
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	public String getLastName() {
-		return lastName;
-	}
+
+	@Column(name="last_name")
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}	
 	
 }
