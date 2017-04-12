@@ -69,7 +69,7 @@ public class FoodDAO extends DAO {
 		}
 	}
 	
-	//update food nutrition info (Food food, User user) user.usertype==PNS 在后台做这种验证。
+	//update food nutrition info (Food food, User user) user.usertype==PNS 
 	
 
 	//update food price info (Food food, User user) user.usertype==admin

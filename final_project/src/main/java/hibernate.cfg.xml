@@ -4,18 +4,19 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.password">secret</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/final_project</property>
 		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">secret</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		<property name="hibernate.show_sql">true</property>
 		<property name="hibernate.hbm2ddl.auto">create-drop</property>
-		
 		<mapping class="com.neu.final_project.pojo.Food" />
-		<mapping class="com.neu.final_project.pojo.MealItem" />
-		<mapping class="com.neu.final_project.pojo.Meal" />
 		<mapping class="com.neu.final_project.pojo.Account" />
 		<mapping class="com.neu.final_project.pojo.User" />
 		<mapping class="com.neu.final_project.pojo.Employee" />
+		<mapping class="com.neu.final_project.pojo.Recipe" />
+		<mapping class="com.neu.final_project.pojo.RecipeItem" />
+		<mapping class="com.neu.final_project.pojo.Order" />
+		<mapping class="com.neu.final_project.pojo.OrderItem" />
 	</session-factory>
 </hibernate-configuration>

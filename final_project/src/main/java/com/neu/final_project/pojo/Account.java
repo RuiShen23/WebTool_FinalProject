@@ -1,19 +1,24 @@
 package com.neu.final_project.pojo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="account_table")
+@Table(name="account")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Account {
 	
+	private int id;
 	private String username;
 	private String password;
 	private String email;
-	private String accountType = "Registered";
+	private String accountType = "registered";
 	
 	public Account(){
 		
@@ -26,31 +31,48 @@ public class Account {
 		this.accountType = accountType;
 	}
 
+
+	@Id
+	@Column(name="ACCOUNT_ID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	public int getId() {
+		return id;
+	}
 	
+	@Column(name="USERNAME")
 	public String getUsername() {
 		return username;
+	}
+	
+	@Column(name="PASSWORD")
+	public String getPassword() {
+		return password;
+	}
+	
+	@Column(name="EMAIL")
+	public String getEmail() {
+		return email;
+	}
+	
+	@Column(name="ACCOUNT_TYPE")
+	public String getAccountType() {
+		return accountType;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public String getPassword() {
-		return password;
-	}
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getEmail() {
-		return email;
-	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public String getAccountType() {
-		return accountType;
-	}
+	}	
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-	
 	
 }

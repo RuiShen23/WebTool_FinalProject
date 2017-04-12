@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.hibernate.Query;
 
-import com.neu.final_project.pojo.Meal;
+import com.neu.final_project.pojo.Recipe;
 import com.neu.final_project.pojo.User;
 
-public class MealDAO extends DAO {
+public class RecipeDAO extends DAO {
 
-	// create new meal
-	public String addMeal(Meal meal) {
+	// create new recipe
+	public String addMeal(Recipe meal) {
 		String status = "Error occurred, please try again";
 
 		try {
@@ -27,8 +27,8 @@ public class MealDAO extends DAO {
 		return status;
 	}
 
-	// display all meals
-	public List<Meal> showAllMeal() {
+	// display all recipes
+	public List<Recipe> showAllMeal() {
 
 		try {
 			begin();
@@ -46,7 +46,7 @@ public class MealDAO extends DAO {
 		}
 	}
 
-	// display saved meal of a user
+	// display saved recipes of a user
 	public List searchSavedMeal(User user) {
 
 		try {
@@ -69,7 +69,7 @@ public class MealDAO extends DAO {
 		}
 	}
 
-	// get available meals for registered users (with/without unwantedFood)
+	// get available recipes for registered users (with/without unwantedFood)
 	public List getRegisteredUserMeals(User user) {
 		try {
 			begin();
@@ -94,7 +94,7 @@ public class MealDAO extends DAO {
 		}
 	}
 		
-	// get available meals for guest user (with/without requirements)
+	// get available recipes for guest user (with/without requirements)
 	public List getGuestUserMeals(String requirement){
 		
 		try {
