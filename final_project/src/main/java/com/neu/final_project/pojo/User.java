@@ -3,21 +3,22 @@ package com.neu.final_project.pojo;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
-@PrimaryKeyJoinColumn(name="user_id")
+@Table(name="usr_table")
+@PrimaryKeyJoinColumn(name="USER_ID")
 public class User extends Account{
 	
 	private Set<Food> unwantedFood; //m-m, one way
-	private Set<Meal> savedMeal; //m-m, one way
+	private Set<Recipe> savedMeal; //m-m, one way
+	private Set<Order> orders;
 	
 	public User(){
 		
@@ -31,14 +32,23 @@ public class User extends Account{
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="user_savedMeal", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="meal_id"))
-	public Set<Meal> getSavedMeal() {
+	public Set<Recipe> getSavedMeal() {
 		return savedMeal;
 	}
+	
+	
+	@OneToMany(mappedBy="user")	
+	public Set<Order> getOrders() {
+		return orders;
+	}
 
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
+	}
 	public void setUnwantedFood(Set<Food> unwantedFood) {
 		this.unwantedFood = unwantedFood;
 	}
-	public void setSavedMeal(Set<Meal> savedMeal) {
+	public void setSavedMeal(Set<Recipe> savedMeal) {
 		this.savedMeal = savedMeal;
 	}	
 

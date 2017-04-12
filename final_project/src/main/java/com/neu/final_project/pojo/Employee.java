@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="employee")
-@PrimaryKeyJoinColumn(name="employee_id")
+@PrimaryKeyJoinColumn(name="EMPLOYEE_ID")
 public class Employee extends Account{
 
 	private String firstName;
@@ -17,12 +17,12 @@ public class Employee extends Account{
 		
 	}
 	
-	@Column(name="first_name")
+	@Column(name="FIRST_NAME")
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	@Column(name="last_name")
+	@Column(name="LAST_NAME")
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}

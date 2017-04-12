@@ -33,28 +33,28 @@ public class Account {
 
 
 	@Id
-	@Column(name="id")
+	@Column(name="ACCOUNT_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
 	
-	@Column(name="username")
+	@Column(name="USERNAME")
 	public String getUsername() {
 		return username;
 	}
 	
-	@Column(name="password")
+	@Column(name="PASSWORD")
 	public String getPassword() {
 		return password;
 	}
 	
-	@Column(name="email")
+	@Column(name="EMAIL")
 	public String getEmail() {
 		return email;
 	}
 	
-	@Column(name="account_type")
+	@Column(name="ACCOUNT_TYPE")
 	public String getAccountType() {
 		return accountType;
 	}

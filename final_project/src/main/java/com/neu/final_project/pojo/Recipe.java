@@ -1,5 +1,6 @@
 package com.neu.final_project.pojo;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,19 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Formula;
 
 @Entity
-@Table(name="meal")
-public class Meal {
+@Table(name="recipe")
+public class Recipe {
 	
-	private int mealId;
-	private Set<MealItem> mealItems; //m-m, one way
+	private int recipeId;
+	private Set<RecipeItem> recipeItems; 
 	private String category; //breakfast, lunch, dinner, sneak
 	private String cookingInstruction;	
 	// no need to be save to db, use formula property to calculate values
@@ -31,35 +30,34 @@ public class Meal {
 	private float totalProtein;
 	
 	
-	public Meal(){
-		
+	public Recipe() {
+		recipeItems = new HashSet<RecipeItem>();
 	}
 	
-	public Meal(Set<MealItem> mealItems, String category, String cookingInstruction) {
-		this.mealItems = mealItems;
+	public Recipe(Set<RecipeItem> recipeItems, String category, String cookingInstruction) {
+		this.recipeItems = recipeItems;
 		this.category = category;
 		this.cookingInstruction = cookingInstruction;
 	}
 
 	@Id
-	@Column(name="meal_id")
+	@Column(name="RECIPE_ID")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int getMealId() {
-		return mealId;
+	public int getRecipeId() {
+		return recipeId;
 	}
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name="meal_mealItem", joinColumns=@JoinColumn(name="meal_id"), inverseJoinColumns=@JoinColumn(name="mealItem_id"))
-	public Set<MealItem> getMealItems() {
-		return mealItems;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="recipe")
+	public Set<RecipeItem> getRecipeItems() {
+		return recipeItems;
 	}
 	
-	@Column(name="category")
+	@Column(name="CATEGORY")
 	public String getCategory() {
 		return category;
 	}
 	
-	@Column(name="cooking_instr")
+	@Column(name="COOKING_INSTR")
 	public String getCookingInstruction() {
 		return cookingInstruction;
 	}
@@ -85,11 +83,11 @@ public class Meal {
 	}
 	
 	
-	public void setMealId(int mealId) {
-		this.mealId = mealId;
+	public void setMealId(int recipeId) {
+		this.recipeId = recipeId;
 	}
-	public void setMealItems(Set<MealItem> mealItems) {
-		this.mealItems = mealItems;
+	public void setMealItems(Set<RecipeItem> recipeItems) {
+		this.recipeItems = recipeItems;
 	}
 	public void setCategory(String category) {
 		this.category = category;

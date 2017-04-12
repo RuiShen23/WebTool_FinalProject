@@ -1,23 +1,25 @@
 package com.neu.final_project.pojo;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Formula;
 
 @Entity
-@Table(name="mealItem")
-public class MealItem {
+@Table(name="recipeItem")
+public class RecipeItem {
 
-	private int mealItemId;
+	private int recipeItemId;
 	private int quantity;
-	private Food food; //two-way, m-1
+	private Food food; //one-way, m-1
+	private Recipe recipe; //two-way, m-1
 	//these are calculated values
 	private float calories;
 	private float fat;
@@ -25,32 +27,39 @@ public class MealItem {
 	private float protein;	
 	private float price;
 	
-	public MealItem(){
+	public RecipeItem(){
 		
 	}
 		
-	public MealItem(int quantity, Food food) {
+	public RecipeItem(int quantity, Food food) {
 		this.quantity = quantity;
 		this.food = food;
 	}
 
 	@Id
-	@Column(name="mealItem_id")
+	@Column(name="RECIPE_ITEM_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	public int getMealItemId() {
-		return mealItemId;
+	public int getRecipeItemId() {
+		return recipeItemId;
 	}
 	
-	@Column(name="quantity")
+	@Column(name="QUANTITY")
 	public int getQuantity() {
 		return quantity;
 	}
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="FOOD_ID", nullable = false)
 	public Food getFood() {
 		return food;
 	}
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="RECIPE_ID", nullable = false)
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
 	@Formula("") //select from food where food_id = this.food.id * quantity
 	public float getCalories() {
 		return calories;
@@ -87,8 +96,8 @@ public class MealItem {
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	public void setMealItemId(int mealItemId) {
-		this.mealItemId = mealItemId;
+	public void setRecipeItemId(int recipeItemId) {
+		this.recipeItemId = recipeItemId;
 	}
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
@@ -96,7 +105,9 @@ public class MealItem {
 	public void setFood(Food food) {
 		this.food = food;
 	}
-	
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
+	}
 	
 	
 }

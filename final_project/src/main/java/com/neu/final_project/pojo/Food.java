@@ -36,43 +36,43 @@ public class Food {
 
 
 	@Id
-	@Column(name="food_id")
+	@Column(name="FOOD_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getFoodId() {
 		return foodId;
 	}
 	
-	@Column(name="name")
+	@Column(name="NAME")
 	public String getName() {
 		return name;
 	}
 	
-	@Column(name="category")
+	@Column(name="CATEGORY")
 	public String getFoodCategory() {
 		return foodCategory;
 	}
 	
-	@Column(name="calories")
+	@Column(name="CALORIES")
 	public float getCalories() {
 		return calories;
 	}
 	
-	@Column(name="fat")
+	@Column(name="FAT")
 	public float getFat() {
 		return fat;
 	}
 	
-	@Column(name="carb")
+	@Column(name="CARB")
 	public float getCarb() {
 		return carb;
 	}
 	
-	@Column(name="protein")
+	@Column(name="PROTEIN")
 	public float getProtein() {
 		return protein;
 	}
 	
-	@Column(name="price")
+	@Column(name="PRICE")
 	public float getPrice() {
 		return price;
 	}
