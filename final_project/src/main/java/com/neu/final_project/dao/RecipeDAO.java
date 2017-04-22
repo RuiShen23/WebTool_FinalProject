@@ -10,14 +10,14 @@ import com.neu.final_project.pojo.User;
 public class RecipeDAO extends DAO {
 
 	// create new recipe
-	public String addMeal(Recipe meal) {
+	public String addRecipe(Recipe recipe) {
 		String status = "Error occurred, please try again";
 
 		try {
 			begin();
-			getSession().save(meal);
+			getSession().save(recipe);
 			commit();
-			status = "Meal successfully added!";
+			status = "Recipe successfully added!";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			rollback();
@@ -27,54 +27,68 @@ public class RecipeDAO extends DAO {
 		return status;
 	}
 
+	//get recipe by id
+	public Recipe getRecipe(int id){
+		try {
+			begin();
+			String hql = "from Recipe where recipeId = :id";
+			Query query = getSession().createQuery(hql);
+			query.setParameter("id", id);
+			Recipe recipe = (Recipe) query.uniqueResult();
+			commit();
+			return recipe;
+		} finally {
+			close();
+		}
+	}
+	
 	// display all recipes
 	public List<Recipe> showAllMeal() {
 
 		try {
 			begin();
 
-			String hql = "from Meal";
+			String hql = "from Recipe";
 
 			Query q = getSession().createQuery(hql);
-			List mealList = q.list();
+			List<Recipe> recipeList = q.list();
 
 			commit();
 
-			return mealList;
+			return recipeList;
 		} finally {
 			close();
 		}
 	}
 
 	// display saved recipes of a user
-	public List searchSavedMeal(User user) {
+	public List<Recipe> searchSavedRecipe(User user) {
 
 		try {
 			begin();
 			
-			//int userId = user.getUserId();
+			int userId = user.getId();
 
-			// select * from Meal where meal_id == (select meal_id from User where user_id = userId)
-			String hql = " ";
+			String hql = "select savedRecipe from User where id = :userId";
 
 			Query q = getSession().createQuery(hql);
-			List mealList = q.list();
+			q.setParameter("userId", userId);
+			List recipeList = q.list();
 
 			commit();
 
-			return mealList;
-
+			return recipeList;
 		} finally {
 			close();
 		}
 	}
 
 	// get available recipes for registered users (with/without unwantedFood)
-	public List getRegisteredUserMeals(User user) {
+	public List getRegisteredUserRecipes(User user) {
 		try {
 			begin();
 
-			//int userId = user.getUserId();
+			int userId = user.getId();
 			/*sql logic: 
 			1. select distinct meal_id from MealItem where food_id in 
 				(select distinct food_id from User where user_id==userId) --> returns all meals with unwantedFood

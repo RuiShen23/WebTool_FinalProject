@@ -12,13 +12,13 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="usr_table")
+@Table(name="user_table")
 @PrimaryKeyJoinColumn(name="USER_ID")
 public class User extends Account{
 	
 	private Set<Food> unwantedFood; //m-m, one way
-	private Set<Recipe> savedMeal; //m-m, one way
-	private Set<Order> orders;
+	private Set<Recipe> savedRecipe; //m-m, one way
+	private Set<Order> orders; //1-m, two way
 	
 	public User(){
 		
@@ -32,8 +32,8 @@ public class User extends Account{
 
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="user_savedMeal", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="meal_id"))
-	public Set<Recipe> getSavedMeal() {
-		return savedMeal;
+	public Set<Recipe> getSavedRecipe() {
+		return savedRecipe;
 	}
 	
 	
@@ -48,8 +48,8 @@ public class User extends Account{
 	public void setUnwantedFood(Set<Food> unwantedFood) {
 		this.unwantedFood = unwantedFood;
 	}
-	public void setSavedMeal(Set<Recipe> savedMeal) {
-		this.savedMeal = savedMeal;
+	public void setSavedRecipe(Set<Recipe> savedRecipe) {
+		this.savedRecipe = savedRecipe;
 	}	
 
 

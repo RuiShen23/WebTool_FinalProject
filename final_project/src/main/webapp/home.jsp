@@ -7,39 +7,12 @@
    	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body>
-	<div id="top_nav" class="navbar navbar-default navbar-static-top" role="navigation">
-  		<div class="container">
-			<div class="navbar-header">
-   				<a class="navbar-brand" href="/"> 
-                    Menu Generator
-            	</a>
-  			</div>
-   			<div>
-      			<ul class="nav navbar-nav">
-                	<li class="active"><a href="/">Generate menu</a></li>
-                  	<li><a href="#">Browse foods</a></li>
-                  	<li class="dropdown user-dropdown"> 
-                    	<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> 
-                    		${user.username} <strong class="caret"></strong> 
-                        </a>
-                  		<ul class="dropdown-menu">
-                  			<li><a href="#">User Profile</a></li>
-                       		<li><a href="#">Account Info</a></li>
-                        	<li class="divider"></li>
-                        	<li><a href="#">Log out</a></li>
-
-                    	</ul>
-                  	</li>
-              	</ul>
-                <ul class="nav navbar-nav navbar-right">
-                	<a class="btn btn-primary pull-right register-button" href="/user/register-free-account/">Sign up</a>
-                    <a class="btn btn-default pull-right register-button" href="/user/login/">Login</a>                        
-                </ul>
-             </div>
-  	 	</div>
-     </div>
-     
+<body>     
+	<div class="functions">
+		<a href="x">User Login</a>
+		<a href="y">Register</a>
+		<a href="z">View Food Bank</a>
+	</div>
      
 	<div class="main_question">
     	<form action="/generate" method="post">
@@ -68,7 +41,7 @@
    			<div class="modal-content">
         		<div class="modal-header">
             		<button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-            		<h2 class="modal-title" id="myModalLabel"> Nutrition Calculator </h4>
+            		<h2 class="modal-title" id="myModalLabel"> Nutrition Calculator </h2>
          		</div>
          
          		<div class="modal-body">

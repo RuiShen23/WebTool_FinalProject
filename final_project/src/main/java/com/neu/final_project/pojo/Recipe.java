@@ -22,8 +22,7 @@ public class Recipe {
 	private Set<RecipeItem> recipeItems; 
 	private String category; //breakfast, lunch, dinner, sneak
 	private String cookingInstruction;	
-	// no need to be save to db, use formula property to calculate values
-	// corresponding columns available in mealItem table
+	//below are calculated values
 	private float totalCalorie;
 	private float totalFat;
 	private float totalCarb;
@@ -62,22 +61,22 @@ public class Recipe {
 		return cookingInstruction;
 	}
 	
-	@Formula("...") //below will have similar formula as this one
+	@Formula("(select sum(ri.QUANTITY*f.CALORIES) FROM recipeItem ri join food_table f on ri.FOOD_ID=f.FOOD_ID where ri.RECIPE_ID=RECIPE_ID)") 
 	public float getTotalCalorie() {
 		return totalCalorie;
 	}
 	
-	
+	@Formula("(select sum(ri.QUANTITY*f.FAT) FROM recipeItem ri join food_table f on ri.FOOD_ID=f.FOOD_ID where ri.RECIPE_ID=RECIPE_ID)") 
 	public float getTotalFat() {
 		return totalFat;
 	}
 	
-	
+	@Formula("(select sum(ri.QUANTITY*f.CARB) FROM recipeItem ri join food_table f on ri.FOOD_ID=f.FOOD_ID where ri.RECIPE_ID=RECIPE_ID)") 
 	public float getTotalCarb() {
 		return totalCarb;
 	}
 	
-	
+	@Formula("(select sum(ri.QUANTITY*f.PROTEIN) FROM recipeItem ri join food_table f on ri.FOOD_ID=f.FOOD_ID where ri.RECIPE_ID=RECIPE_ID)") 	
 	public float getTotalProtein() {
 		return totalProtein;
 	}

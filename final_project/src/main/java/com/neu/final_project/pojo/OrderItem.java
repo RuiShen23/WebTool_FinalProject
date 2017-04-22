@@ -17,7 +17,7 @@ public class OrderItem {
 	private int orderItemId;
 	private Food food;
 	private int quantity;
-	private Order order;
+	private Order order; //many-1
 	
 	public OrderItem() {
 		food = new Food();

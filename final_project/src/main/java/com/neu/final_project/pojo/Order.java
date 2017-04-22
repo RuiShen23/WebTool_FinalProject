@@ -25,7 +25,7 @@ import org.hibernate.annotations.CreationTimestamp;
 public class Order {
 
 	private int orderId;
-	private Set<OrderItem> orderItems;
+	private Set<OrderItem> orderItems; //1-many
 	private User user;
 	private Date placeDate;
 	

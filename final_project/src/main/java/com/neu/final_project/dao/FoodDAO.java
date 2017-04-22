@@ -9,7 +9,7 @@ import com.neu.final_project.pojo.User;
 
 public class FoodDAO extends DAO {
 
-	// create food
+	// add food
 	public String addFood(Food food) {
 		String status = "Error occurred, please try again";
 
@@ -54,8 +54,7 @@ public class FoodDAO extends DAO {
 		try {
 			begin();
 			
-			//not sure yet
-			String hql = " ";
+			String hql = "select unwantedFood from User where id = :userId";
 			
 			Query q = getSession().createQuery(hql);
 			List foodList = q.list();

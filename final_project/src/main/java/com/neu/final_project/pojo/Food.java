@@ -8,13 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="food")
+@Table(name="food_table")
 public class Food {
 	
 	private int foodId;
 	private String name;
 	private String foodCategory; //vegan and non-vegan
-	//basic unit for nutrition info and price is 1g
+	//basic unit for nutrition info and price is 1 size
 	private float calories;
 	private float fat;
 	private float carb;

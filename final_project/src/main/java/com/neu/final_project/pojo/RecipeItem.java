@@ -18,9 +18,9 @@ public class RecipeItem {
 
 	private int recipeItemId;
 	private int quantity;
-	private Food food; //one-way, m-1
-	private Recipe recipe; //two-way, m-1
-	//these are calculated values
+	private Food food; //many-1, one way
+	private Recipe recipe; //many-1, two way
+	//below are calculated values
 	private float calories;
 	private float fat;
 	private float carb;
@@ -60,23 +60,27 @@ public class RecipeItem {
 		return recipe;
 	}
 
-	@Formula("") //select from food where food_id = this.food.id * quantity
+	@Formula("(select QUANTITY * (select f.CALORIES from food_table f where f.FOOD_ID = FOOD_ID))")
 	public float getCalories() {
 		return calories;
 	}
 
+	@Formula("(select QUANTITY * (select f.FAT from food_table f where f.FOOD_ID = FOOD_ID))")
 	public float getFat() {
 		return fat;
 	}
 
+	@Formula("(select QUANTITY * (select f.CARB from food_table f where f.FOOD_ID = FOOD_ID))")
 	public float getCarb() {
 		return carb;
 	}
-
+	
+	@Formula("(select QUANTITY * (select f.PROTEIN from food_table f where f.FOOD_ID = FOOD_ID))")
 	public float getProtein() {
 		return protein;
 	}
 
+	@Formula("(select QUANTITY * (select f.PRICE from food_table f where f.FOOD_ID = FOOD_ID))")
 	public float getPrice() {
 		return price;
 	}
