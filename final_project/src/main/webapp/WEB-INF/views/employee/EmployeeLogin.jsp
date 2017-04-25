@@ -4,15 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>User login</title>
+	<title>Employee login</title>
 </head>
 
 <body>
-	<form action="/employee/login" method="post">
+	<form action="/final_project/employee/login" method="post">
         <table>
             <tr>
-                <td>Email or Username:</td>
-                <td><input type="text" size="20" name="loginName"/></td>
+                <td>Username:</td>
+                <td><input type="text" size="20" name="username"/></td>
+                <td>${errorMessage}</td>
             </tr>
             <tr>
                 <td>Password:</td>

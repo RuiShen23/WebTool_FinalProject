@@ -1,10 +1,13 @@
 package com.neu.final_project.dao;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.springframework.web.util.HtmlUtils;
 
 import com.neu.final_project.pojo.Account;
 import com.neu.final_project.pojo.User;
+
 
 public class UserDAO extends DAO{
 
@@ -14,7 +17,7 @@ public class UserDAO extends DAO{
 		
 		try {
 			begin();
-			//在前台必须有ajax检查username和email的唯一性
+			
 			getSession().save(user);
 			status = "success";
 			
@@ -34,9 +37,9 @@ public class UserDAO extends DAO{
 			
 			String hql;
 			if (loginName.contains("@"))
-				hql = "from account where email = :loginName and password = :password";
+				hql = "from Account where email = :loginName and password = :password";
 			else
-				hql = "from account where username = :loginName and password = :password";
+				hql = "from Account where username = :loginName and password = :password";
 						
 			Query q = getSession().createQuery(hql);
 						

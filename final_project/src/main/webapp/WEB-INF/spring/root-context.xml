@@ -3,8 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
+	<bean id="user" class="com.neu.final_project.pojo.User" />
 	<bean id="userDAO" class="com.neu.final_project.dao.UserDAO" />
-	<bean id="accountRegisterValidator" class="com.neu.final_project.validator.AccountRegisterValidator" />
+	<bean id="userRegisterValidator" class="com.neu.final_project.validator.UserRegisterValidator" />
 	
-		
+	<bean id="food" class="com.neu.final_project.pojo.Food" />
+	<bean id="foodDAO" class="com.neu.final_project.dao.FoodDAO" />
+	<bean id="recipeItemDAO" class="com.neu.final_project.dao.RecipeItemDAO" />
+	<bean id="recipe" class="com.neu.final_project.pojo.Recipe" />
+	<bean id="recipeDAO" class="com.neu.final_project.dao.RecipeDAO" />
+	
+	<bean id="employee" class="com.neu.final_project.pojo.Employee" />
+	<bean id="employeeDAO" class="com.neu.final_project.dao.EmployeeDAO" />
+	<bean id="employeeRegisterValidator" class="com.neu.final_project.validator.EmployeeRegisterValidator" />
+	
+	<bean id="accountDAO" class="com.neu.final_project.dao.AccountDAO" />
+			
 </beans>

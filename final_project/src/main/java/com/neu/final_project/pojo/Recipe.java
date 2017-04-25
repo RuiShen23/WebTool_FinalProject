@@ -1,7 +1,7 @@
 package com.neu.final_project.pojo;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.annotations.Formula;
 
 @Entity
@@ -19,8 +20,8 @@ import org.hibernate.annotations.Formula;
 public class Recipe {
 	
 	private int recipeId;
-	private Set<RecipeItem> recipeItems; 
-	private String category; //breakfast, lunch, dinner, sneak
+	private List<RecipeItem> recipeItems; 
+	private String category; //breakfast, lunch, dinner, snack
 	private String cookingInstruction;	
 	//below are calculated values
 	private float totalCalorie;
@@ -30,10 +31,10 @@ public class Recipe {
 	
 	
 	public Recipe() {
-		recipeItems = new HashSet<RecipeItem>();
+		recipeItems = new ArrayList<RecipeItem>();
 	}
 	
-	public Recipe(Set<RecipeItem> recipeItems, String category, String cookingInstruction) {
+	public Recipe(List<RecipeItem> recipeItems, String category, String cookingInstruction) {
 		this.recipeItems = recipeItems;
 		this.category = category;
 		this.cookingInstruction = cookingInstruction;
@@ -41,13 +42,14 @@ public class Recipe {
 
 	@Id
 	@Column(name="RECIPE_ID")
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getRecipeId() {
 		return recipeId;
 	}
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="recipe")
-	public Set<RecipeItem> getRecipeItems() {
+	@JsonManagedReference
+	public List<RecipeItem> getRecipeItems() {
 		return recipeItems;
 	}
 	
@@ -82,10 +84,12 @@ public class Recipe {
 	}
 	
 	
-	public void setMealId(int recipeId) {
+	
+	
+	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
 	}
-	public void setMealItems(Set<RecipeItem> recipeItems) {
+	public void setRecipeItems(List<RecipeItem> recipeItems) {
 		this.recipeItems = recipeItems;
 	}
 	public void setCategory(String category) {

@@ -39,22 +39,22 @@ public class Account {
 		return id;
 	}
 	
-	@Column(name="USERNAME")
+	@Column(name="USERNAME", unique=true, nullable=false)
 	public String getUsername() {
 		return username;
 	}
 	
-	@Column(name="PASSWORD")
+	@Column(name="PASSWORD", nullable=false)
 	public String getPassword() {
 		return password;
 	}
 	
-	@Column(name="EMAIL")
+	@Column(name="EMAIL", unique=true, nullable=false)
 	public String getEmail() {
 		return email;
 	}
 	
-	@Column(name="ACCOUNT_TYPE")
+	@Column(name="ACCOUNT_TYPE", nullable=false)
 	public String getAccountType() {
 		return accountType;
 	}

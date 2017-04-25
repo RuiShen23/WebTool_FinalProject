@@ -17,12 +17,12 @@ public class Employee extends Account{
 		
 	}
 	
-	@Column(name="FIRST_NAME")
+	@Column(name="FIRST_NAME", nullable=false)
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	@Column(name="LAST_NAME")
+	@Column(name="LAST_NAME", nullable=false)
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}

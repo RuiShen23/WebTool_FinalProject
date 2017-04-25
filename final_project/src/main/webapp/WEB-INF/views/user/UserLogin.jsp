@@ -8,7 +8,7 @@
 </head>
 
 <body>
-	<form action="/user/login" method="post">
+	<form action="/final_project/user/login" method="post">
         <table>
             <tr>
                 <td>Email or Username:</td>

@@ -1,8 +1,11 @@
 package com.neu.final_project.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
+import org.springframework.beans.factory.support.ReplaceOverride;
 
 import com.neu.final_project.pojo.Recipe;
 import com.neu.final_project.pojo.User;
@@ -11,13 +14,13 @@ public class RecipeDAO extends DAO {
 
 	// create new recipe
 	public String addRecipe(Recipe recipe) {
-		String status = "Error occurred, please try again";
+		String status = "error";
 
 		try {
 			begin();
 			getSession().save(recipe);
 			commit();
-			status = "Recipe successfully added!";
+			status = "success";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			rollback();
@@ -27,14 +30,62 @@ public class RecipeDAO extends DAO {
 		return status;
 	}
 
-	//get recipe by id
-	public Recipe getRecipe(int id){
+	//get recipe by category
+	public List<Recipe> getRecipeCategory(String category){
 		try {
 			begin();
-			String hql = "from Recipe where recipeId = :id";
+			
+			String hql = "from Recipe where category = :category";
+			
+			Query q = getSession().createQuery(hql);			
+			q.setParameter("category", category);
+			
+			List<Recipe> recipeList = q.list();
+			
+			commit();
+			
+			return recipeList;
+		} finally {
+			close();
+		}
+	}
+
+	//get recipe by id
+		public Recipe getRecipe(int id){
+			try {
+				begin();
+				String hql = "from Recipe where recipeId = :id";
+				Query query = getSession().createQuery(hql);
+				query.setParameter("id", id);
+				Recipe recipe = (Recipe) query.uniqueResult();
+				commit();
+				return recipe;
+			} finally {
+				close();
+			}
+		}
+	
+	//get a random recipe by category and calorie
+	public Recipe getRecipeForMeal(String category, int calPerMeal) {
+		try {
+			begin();
+
+			String hql = "from Recipe where category = :category";
 			Query query = getSession().createQuery(hql);
-			query.setParameter("id", id);
-			Recipe recipe = (Recipe) query.uniqueResult();
+			query.setParameter("category", category);
+			List<Recipe> recipeList = query.list();
+
+			List<Recipe> rl = new ArrayList<Recipe>();
+			for (Recipe recipe : recipeList) {
+				int recipeCal = (int)recipe.getTotalCalorie();
+				if (recipeCal-50<calPerMeal && calPerMeal<recipeCal+50){
+					rl.add(recipe);
+				}				
+			}
+			
+			int rid = (int) (rl.size()*Math.random());
+		
+			Recipe recipe = rl.get(rid);
 			commit();
 			return recipe;
 		} finally {
@@ -43,7 +94,7 @@ public class RecipeDAO extends DAO {
 	}
 	
 	// display all recipes
-	public List<Recipe> showAllMeal() {
+	public List<Recipe> showAllRecipe() {
 
 		try {
 			begin();
@@ -84,7 +135,7 @@ public class RecipeDAO extends DAO {
 	}
 
 	// get available recipes for registered users (with/without unwantedFood)
-	public List getRegisteredUserRecipes(User user) {
+	public List<Recipe> getRegisteredUserRecipes(User user) {
 		try {
 			begin();
 
@@ -108,27 +159,5 @@ public class RecipeDAO extends DAO {
 		}
 	}
 		
-	// get available recipes for guest user (with/without requirements)
-	public List getGuestUserMeals(String requirement){
-		
-		try {
-			begin();
-			
-			//1. join MealItem[meal_id, food_id] and Food[food_id, category] on food_id
-			//2. select distinct meal_id from temp_table where category == requirement
-			//3. select meal_id from Meal where id != result_1
-			
-			String hql="";
-			
-			Query q = getSession().createQuery(hql);
-			List mealList = q.list();
-			
-			commit();
-			return mealList;
-		} finally {
-			close();
-		}
-	}	
-	 
 
 }
