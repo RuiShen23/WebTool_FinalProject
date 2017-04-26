@@ -12,13 +12,13 @@
 
 <body>     
 	<div class="functions">
-		<a href="employee/login">Employee Login</a> <br/>
-		<a href="user/login">User Login</a> <br/>
-		<a href="user/register">User Register</a> <br/>		
+		<a href="employee-login">Employee Login</a> <br/>
+		<a href="user-login">User Login</a> <br/>
+		<a href="user-register">User Register</a> <br/>		
 	</div>
     <br/>
 	<div class="main_question">
-    	<form action="recipe/daily/generate" method="post">
+    	<form action="recipe-daily-generate" method="post">
 	      	I would like to take 
 	      	<input id="caloriesNumber" type="number" size="10" min="700"/> 
           	Calories in
@@ -43,7 +43,7 @@
             		<h2 class="modal-title" id="myModalLabel"> Nutrition Calculator </h2>
          		</div>
          			
-            	<form action="user/nutrition-calculator" method="post">
+            	<form action="nutrition-calculator" method="post">
 	            	<div class="modal-body">                
 	                    <table>
 	                        <tr>
@@ -86,7 +86,7 @@
      
     <br><br><br>
      <div id="generated_menu">
-     <form action="/final_project/user/saved-recipe-unwanted-food/add" method="post">
+     <form action="user/saved-recipe-unwanted-food/add" method="post">
 		<table id="menuTable" border="1">
 		<thead>
 			<tr>
@@ -105,7 +105,7 @@
 		</tbody>		
 		</table>
 		<br><br>
-		<div id="hint"></div>
+		<div id="hint" data-prodnumber="${user.username}"></div>
 		<c:if test="${not empty user}">
 			<input type="submit" value="Submit"/>
 		</c:if>
@@ -117,7 +117,7 @@
 	     function getCalorie()
 	     {
 	    	var xmlHttp = new XMLHttpRequest();
-	    	var url = "${pageContext.request.contextPath}/user/nutrition-calculator";
+	    	var url = "nutrition-calculator";
 	    	var height_feet = document.getElementById("height_feet").value;
 	    	var height_inches = document.getElementById("height_inches").value;
 	    	var weight_pounds = document.getElementById("weight_pounds").value;
@@ -150,9 +150,9 @@
 	    		 return;
 	    	 }
 		     var mealNumber = document.getElementById("mealNumber").value;
-	    	 var url = "recipe/daily/generate?caloriesNumber=" + caloriesNumber + "&mealNumber=" + mealNumber;
-	    	 var userExist = <%=request.getAttribute("user")%>;
-
+	    	 var url = "recipe-daily-generate?caloriesNumber=" + caloriesNumber + "&mealNumber=" + mealNumber;
+	    	 var username = document.getElementById("hint"), userExist;
+	    	 userExist = username.getAttribute("data-prodnumber");
 	    	 var hint ='Please log in to enable Add Favorite Recipe and Unwanted Food function';
 		     xmlHttp.onreadystatechange=function()
 			 {
@@ -187,7 +187,7 @@
 		    		
 		    		document.getElementById("tbody").innerHTML = trStr;
 		    				    		
-			    	if(userExist == null)
+			    	if(userExist == '')
 			    	{
 			    		document.getElementById("hint").innerHTML = hint;
 			    	}

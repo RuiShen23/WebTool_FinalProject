@@ -1,15 +1,11 @@
 package com.neu.final_project.controller;
 
-import java.lang.ProcessBuilder.Redirect;
-import java.util.PrimitiveIterator.OfDouble;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,7 +36,7 @@ public class EmployeeController {
 	EmployeeRegisterValidator employeeRegisterValidator;
 
 	// redirect to employee login page
-	@RequestMapping(value = "/employee/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/employee-login", method = RequestMethod.GET)
 	public String showEmployeeLoginPage(HttpServletRequest request) {	
 		if(request.getSession().getAttribute("employee")!=null){
 			return "/employee/EmployeeHomeIndex";
@@ -49,7 +45,7 @@ public class EmployeeController {
 	}
 
 	// process employee login
-	@RequestMapping(value = "/employee/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/employee-login", method = RequestMethod.POST)
 	public String loginEmployee(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request) {
 		Employee employee = emplyeeDAO.loginEmployee(username, password);
 		if(employee==null){
@@ -59,8 +55,14 @@ public class EmployeeController {
 			request.getSession().setAttribute("employee", employee);
 			return "employee/EmployeeHomeIndex";
 		}
-		
 	}	
+	
+	//employee log out
+	@RequestMapping(value="/employee/logout", method=RequestMethod.GET)
+	public String employeeLogout(HttpServletRequest request){
+		request.getSession().removeAttribute("employee");
+		return "employee/EmployeeLogout";
+	}
 
 	// redirect to admin manage account page
 	@RequestMapping(value = "/employee/admin-manage-accounts", method = RequestMethod.GET)
@@ -70,8 +72,7 @@ public class EmployeeController {
 
 	// process admin add pns request
 	@RequestMapping(value = "/employee/admin-manage-accounts/add", method = RequestMethod.POST)
-	public ModelAndView registerUser(@ModelAttribute("employee") Employee employee, BindingResult result) {
-		ModelAndView modelAndView = new ModelAndView();
+	public String registerUser(@ModelAttribute("employee") Employee employee, BindingResult result, HttpServletRequest request) {
 
 		employeeRegisterValidator.validate(employee, result);
 
@@ -82,21 +83,20 @@ public class EmployeeController {
 		employee.setLastName(HtmlUtils.htmlEscape(employee.getLastName()));
 		employee.setAccountType("pns");
 		
-		if (result.hasErrors())
-			return new ModelAndView("/employee/AdminManageAccount");
+		if (result.hasErrors()){
+			request.setAttribute("message", "Employee succuessfully added");
+			return "employee/AdminManageAccount";
+		}
 
 		String status = emplyeeDAO.createPns(employee);
 
 		if (status.equals("success")) {
-			modelAndView.addObject(new Employee());
-			modelAndView.addObject("message", "Employee succuessfully added");
-			modelAndView.setViewName("employee/AdminManageAccount");
+			request.setAttribute("message", "Employee succuessfully added");
 		} else {
-			modelAndView.addObject("message", "Error occured, please try again");
-			modelAndView.setViewName("employee/AdminManageAccount");
+			request.setAttribute("message", "Error occured, please try again");
 		}
 
-		return modelAndView;
+		return "employee/AdminManageAccount";
 	}
 	
 	//redirect to view account detail page

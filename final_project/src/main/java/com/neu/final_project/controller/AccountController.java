@@ -22,7 +22,7 @@ public class AccountController {
 	AccountDAO accountDAO;
 		
 	//ajax - admin view accounts
-	@RequestMapping(value="account/admin-view-accounts", method=RequestMethod.POST)
+	@RequestMapping(value="employee/admin-view-accounts", method=RequestMethod.POST)
 	@ResponseBody
 	public List<Account> adminViewAccounts(HttpServletRequest request){
 		String accountType = request.getParameter("accountType");

@@ -11,21 +11,20 @@ public class FoodDAO extends DAO {
 
 	// add food
 	public String addFood(Food food) {
-		String status = "Error occurred, please try again";
+		String status = "failed";
 
 		try {
 			begin();
 			getSession().save(food);
 			commit();
-			status = "Submission succeed! Food pending for admin review";
+			status = "success";
+			return status;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			rollback();
+			return "failed";
 		} finally {
 			close();
 		}
-
-		return status;
 	}
 
 	//find food by id

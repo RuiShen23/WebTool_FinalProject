@@ -18,7 +18,9 @@ public class UserDAO extends DAO{
 			status="success";
 			commit();
 			return status;
-		} finally {
+		} catch (Exception e) {
+			return "failed";
+		}finally {
 			close();
 		}
 	}

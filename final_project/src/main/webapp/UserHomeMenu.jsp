@@ -10,11 +10,10 @@
 	<body>
 		Hello ${user.username}. <br>
 		<div id="basic_functions">
-		<a href="home.jsp" target="_top">Home page</a>
+		<a href="home.jsp" target="_top">Home page</a><br>
 		<a href="user/logout" target="_top">Log out</a><br><br>
-		<a href="recipe/user-saved-recipe/view" target="contents">Manage Saved Recipes</a><br>
-	    <a href="food/user-unwanted-food/view" target="contents">Manage Unwanted Food</a><br>
-	    <a href="recipe/create/user" target="contents">Create New Recipes</a><br>      
+		<a href="user/user-saved-recipe/view" target="contents">Manage Saved Recipes</a><br>
+	    <a href="user/user-unwanted-food/view" target="contents">Manage Unwanted Food</a><br>
 	    </div>
 	    
 	    <div id="registered_user_functions">
@@ -25,8 +24,7 @@
 	    
 	    <div id="premier_user_functions">
 		    <c:if test="${user.accountType == 'premier'}">
-		    	<a href="recipe/generate-weekly-recipe" target="contents">Generate Weekly Menu</a><br> 
-		    	<a href="message/communicate-pns" target="contents">Contact PNS</a><br> 
+		    	<a href="user/generate-weekly-recipe" target="contents">Generate Weekly Menu</a><br> 
 		    </c:if>
 	    </div>
 	</body>

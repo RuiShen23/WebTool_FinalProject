@@ -19,7 +19,7 @@
 		<option value="pns">PNS</option>
 	</select>
 	<div id="divAccountTable">
-		<table id="accountTable">
+		<table id="accountTable" border="1">
 		<thead>
 		<tr>
 			<td>Account ID</td>
@@ -29,19 +29,14 @@
 		</tr>
 		</thead>
 		<tbody id="tbody">
-		<tr id="content" class="example">
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>	
+		
 		</tbody>
 		</table>
 	</div>
 	<br><br><br>
 	Add PNS:
 	<div id="divAddPns">
-		<form:form action="admin-manage-accounts/add" method="post" modelAttribute="employee">
+		<form:form action="/final_project/employee/admin-manage-accounts/add" method="post" modelAttribute="employee">
 			<jsp:useBean id="employee" class="com.neu.final_project.pojo.Employee" scope="request" />
 			<table>
 				<tr>
@@ -95,7 +90,7 @@
 	    {
 		   	var xmlHttp = new XMLHttpRequest();
 		   	var accountType = document.getElementById("accountType").value;
-		   	var url = "/final_project/account/admin-view-accounts";
+		   	var url = "/final_project/employee/admin-view-accounts";
 		   			 
 		    xmlHttp.onreadystatechange=function()
 		    {
@@ -107,7 +102,7 @@
 		    		for (var i=0;i<accountList.length;i++)
 		    		{		    			
 		    			trStr += '<tr class="example">';
-		    			trStr += '<td>' + '<a href="/final_project/employee/admin-manage-accounts/view?accountId='+ accountList[i].id + '">' + accountList[i].id +'</a>'+ '</td>';		    			
+		    			trStr += '<td>' + '<a href="admin-manage-accounts/view?accountId='+ accountList[i].id + '">' + accountList[i].id +'</a>'+ '</td>';		    			
 		    			trStr += '<td>' + accountList[i].username + '</td>';
 		    			trStr += '<td>' + accountList[i].email + '</td>';
 		    			trStr += '<td>' + accountList[i].accountType + '</td>';

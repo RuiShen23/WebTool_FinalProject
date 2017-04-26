@@ -1,8 +1,8 @@
 package com.neu.final_project.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.neu.final_project.dao.FoodDAO;
 import com.neu.final_project.dao.RecipeDAO;
 import com.neu.final_project.dao.RecipeItemDAO;
+import com.neu.final_project.dao.UserDAO;
 import com.neu.final_project.pojo.Food;
 import com.neu.final_project.pojo.Recipe;
 import com.neu.final_project.pojo.User;
@@ -38,8 +39,12 @@ public class RecipeController {
 	@Qualifier("recipeItemDAO")
 	RecipeItemDAO recipeItemDAO;
 	
+	@Autowired
+	@Qualifier("userDAO")
+	UserDAO userDAO;
+	
 	//ajax - generate daily menu
-	@RequestMapping(value="/recipe/daily/generate", method=RequestMethod.GET)
+	@RequestMapping(value="recipe-daily-generate", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Recipe> generateDailyRecipe(HttpServletRequest request){
 		
@@ -83,27 +88,47 @@ public class RecipeController {
 	
 	
 	//user view saved-recipe
-	@RequestMapping(value="/recipe/user-saved-recipe/view", method=RequestMethod.GET)
+	@RequestMapping(value="/user/user-saved-recipe/view", method=RequestMethod.GET)
 	public ModelAndView showUserSavedRecipe(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
 		User user = (User)request.getSession().getAttribute("user");
-		Set<Recipe> recipeList = (Set<Recipe>) user.getSavedRecipe();
-		
+		List<Recipe> recipeList = (List<Recipe>) user.getSavedRecipe();
+	
 		modelAndView.addObject("recipeList", recipeList);
 		modelAndView.setViewName("user/UserSavedRecipe");
-		
+
 		return modelAndView;
 	}
 	
+	//user remove saved-recipe
+	@RequestMapping(value="/user/user-saved-recipe/remove", method=RequestMethod.POST)
+	public String removeUserSavedRecipe(HttpServletRequest request) throws IndexOutOfBoundsException{
+		User user = (User)request.getSession().getAttribute("user");
+		String[] favRecipes = request.getParameterValues("favRecipes");
+				
+		if(favRecipes!= null){
+			for (String s:favRecipes){
+				for (int i=0;i<user.getSavedRecipe().size();i++){
+					if(user.getSavedRecipe().get(i).getRecipeId()==Integer.parseInt(s)){
+						user.getSavedRecipe().remove(i);
+					}
+				}			
+			}
+		}
+
+		userDAO.updateUser(user);
+		return "user/UserSavedRecipe";
+	}
+	
 	//redirect to PnsManageRcipe page
-	@RequestMapping(value="/recipe/pns-manage")
+	@RequestMapping(value="/employee/pns-manage-recipe")
 	public String showPnsManageRecipePage(HttpServletRequest request){
 		request.setAttribute("allFoodList", foodDAO.showAllFood());
 		return "employee/PnsManageRecipe";
 	}
 	
 	//ajax - pns view recipes by category
-	@RequestMapping(value="/recipe/pns-manage/view-by-category", method=RequestMethod.GET)
+	@RequestMapping(value="/employee/pns-manage-recipe/view-by-category", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Recipe> showRecipeByCategory(HttpServletRequest request){			
 		String recipeCategory = request.getParameter("recipeCategory");
@@ -113,8 +138,14 @@ public class RecipeController {
 		return recipeList;
 	}
 	
-	//process pns create new recipe request
-	@RequestMapping(value="/recipe/pns-manage/create", method=RequestMethod.POST)
+	//redirect to PNS create recipe page
+	@RequestMapping(value="/employee/pns-manage-recipe/create", method=RequestMethod.GET)
+	public String redirectPnsCreateRecipePage(){
+		return "employee/PnsManageRecipe";
+	}
+	
+	//process PNS create new recipe request
+	@RequestMapping(value="/employee/pns-manage-recipe/create", method=RequestMethod.POST)
 	public String pnsCreateRecipe(Recipe recipe, HttpServletRequest request){
 
 		String[] foodIds = request.getParameterValues("foodIds");
@@ -135,7 +166,7 @@ public class RecipeController {
 		return "employee/PnsManageRecipe";
 	}
 	
-	@RequestMapping(value="/recipe/pns-manage/modify", method=RequestMethod.GET)
+	@RequestMapping(value="/employee/pns-manage-recipe/modify", method=RequestMethod.GET)
 	public void pnsUpdateRecipe(){
 		
 	}

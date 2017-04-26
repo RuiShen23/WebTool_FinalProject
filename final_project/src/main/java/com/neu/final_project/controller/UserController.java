@@ -1,13 +1,10 @@
 package com.neu.final_project.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -57,13 +54,13 @@ public class UserController {
 	}
 	
 	//redirect to register page
-	@RequestMapping(value="/user/register", method=RequestMethod.GET) 
+	@RequestMapping(value="/user-register", method=RequestMethod.GET) 
 	public String showRegisterPage(){
 		return "/user/UserRegister";
 	}
 	
 	//process register request
-	@RequestMapping(value="/user/register", method=RequestMethod.POST)
+	@RequestMapping(value="/user-register", method=RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("user") User user, BindingResult result, HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
 		
@@ -89,7 +86,7 @@ public class UserController {
 	}
 	
 	//redirect to login page
-	@RequestMapping(value="/user/login", method=RequestMethod.GET)
+	@RequestMapping(value="/user-login", method=RequestMethod.GET)
 	public String showLoginPage(HttpServletRequest request){
 		if(request.getSession().getAttribute("user")!=null){
 			return "/user/UserHomeIndex";
@@ -98,7 +95,7 @@ public class UserController {
 	}
 	
 	//process user login
-	@RequestMapping(value="/user/login", method=RequestMethod.POST)
+	@RequestMapping(value="/user-login", method=RequestMethod.POST)
 	public String loginUser(@RequestParam("loginName") String loginName, @RequestParam("password") String password, HttpServletRequest request){
 		User user = userDAO.loginUser(loginName, password);
 				
@@ -111,8 +108,13 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping(value="nutrition-calculator", method=RequestMethod.GET)
+	public String redirectHompage(){
+		return "../../home";
+	}
+	
 	//calculate user nutrition
-	@RequestMapping(value="user/nutrition-calculator", method=RequestMethod.POST, produces="text/plain")
+	@RequestMapping(value="nutrition-calculator", method=RequestMethod.POST, produces="text/plain")
 	@ResponseBody
 	public String nutritionCalculator(HttpServletRequest request){
 		
@@ -135,19 +137,33 @@ public class UserController {
 	//user log out
 	@RequestMapping(value="/user/logout", method=RequestMethod.GET)
 	public String logoutUser(HttpServletRequest request){
-		request.getSession().invalidate();
+		request.getSession().removeAttribute("user");
 		return "/user/UserLogout";
 	}
 	
 	//redirect to upgrade page
 	@RequestMapping(value="/user/upgrade-premier-user", method=RequestMethod.GET)
-	public void showUpgradePage(){
-		
+	public String showUpgradePage(){
+		return "user/UserUpgrade";
 	}
 	
 	//process upgrade request
-	@RequestMapping(value="/user/upgrade-premier-user", method=RequestMethod.POST)
-	public void upgradeUser(){
+	@RequestMapping(value="/user/upgrade-premier-user/upgrade", method=RequestMethod.POST)
+	public String upgradeUser(HttpServletRequest request){
+		if(request.getParameter("upgrade")!=null){
+			if(request.getParameter("upgrade").equals("upgrade")){
+				User user = (User)request.getSession().getAttribute("user");
+				user.setAccountType("premier");
+				userDAO.updateUser(user);
+				request.getSession().removeAttribute("user");
+				return "/user/UserLogout";
+			}else
+				request.getSession().removeAttribute("user");
+				return "user/UserLogout";
+		}else{
+			request.getSession().removeAttribute("user");
+			return "user/UserLogout";
+		}
 		
 	}
 	
@@ -194,7 +210,7 @@ public class UserController {
 		
 		userDAO.updateUser(user);
 						
-		return "redirect:/user/login";		
+		return "redirect:/user-login";		
 	}
 	
 	

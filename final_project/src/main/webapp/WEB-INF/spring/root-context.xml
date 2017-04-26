@@ -18,5 +18,5 @@
 	<bean id="employeeRegisterValidator" class="com.neu.final_project.validator.EmployeeRegisterValidator" />
 	
 	<bean id="accountDAO" class="com.neu.final_project.dao.AccountDAO" />
-			
+		
 </beans>

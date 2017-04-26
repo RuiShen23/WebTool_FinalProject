@@ -17,7 +17,9 @@ public class EmployeeDAO extends DAO{
 				commit();
 				status="success";
 				return status;
-			} finally {
+			} catch (Exception e) {
+				return "failed";
+			}finally {
 				close();
 			}
 		}

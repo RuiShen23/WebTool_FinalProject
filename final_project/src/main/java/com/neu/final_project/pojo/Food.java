@@ -1,11 +1,15 @@
 package com.neu.final_project.pojo;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @Entity
 @Table(name="food_table")
@@ -14,6 +18,8 @@ public class Food {
 	private int foodId;
 	private String name;
 	//basic unit for nutrition info and price is 1 serving size
+	private CommonsMultipartFile photo;
+	private String photoPath;
 	private float calories;
 	private float fat;
 	private float carb;
@@ -44,8 +50,18 @@ public class Food {
 	public String getName() {
 		return name;
 	}
+		
+
+	@Column(name="PHOTO_PATH")
+	public String getPhotoPath() {
+		return photoPath;
+	}
 	
-	
+	@Transient
+	public CommonsMultipartFile getPhoto() {
+		return photo;
+	}
+
 	@Column(name="CALORIES", nullable=false)
 	public float getCalories() {
 		return calories;
@@ -72,6 +88,13 @@ public class Food {
 	}
 	
 	
+	
+	public void setPhoto(CommonsMultipartFile photo) {
+		this.photo = photo;
+	}
+	public void setPhotoPath(String photoPath) {
+		this.photoPath = photoPath;
+	}
 	public void setFoodId(int foodId) {
 		this.foodId = foodId;
 	}

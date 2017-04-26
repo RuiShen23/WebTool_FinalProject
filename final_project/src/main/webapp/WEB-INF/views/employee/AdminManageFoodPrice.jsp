@@ -10,8 +10,8 @@
 <body>
 	Please update price for following food: <br>
 	
-	<form method="POST" action="admin-manage/updatePrice">
-		<table>
+	<form method="POST" action="admin-manage-food/updatePrice">
+		<table border="1">
 			<tr>
 				<th>Food ID</th>
 				<th>Food Name</th>
@@ -21,7 +21,8 @@
 				<tr>
 					<td>${food.foodId}</td>
 					<td>${food.name}</td>			
-					<td><input type="text" name="price" value="0"/></td>
+					<td><input type="number" name="price" value="0" min="0"/></td>
+					<td><img style="width:128px;height:98px;"  src="<c:url value="/image/${food.photoPath}" />"></td>
 					<td><input type="hidden" name="foodId" value="${food.foodId}"/></td>
 				</tr>
 			</c:forEach>

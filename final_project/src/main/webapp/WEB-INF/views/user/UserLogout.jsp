@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Food Generator</title>
+<title>Bye</title>
 </head>
 <body>
 You've logged out...<br>
-Click <a href="../home.jsp">here</a> to go back to home page again.
+Click <a href="/final_project/home.jsp">here</a> to go back to home page again.
 </body>
 </html>

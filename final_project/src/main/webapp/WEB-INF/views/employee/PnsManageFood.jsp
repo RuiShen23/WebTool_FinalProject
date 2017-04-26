@@ -11,7 +11,7 @@
 <body>
 	View all food:
 	<div id="divFoodTable">
-	<form method="post" action="pns-manage/modify">
+	<form method="post" action="employee/pns-manage-food/modify">
 		<table id="foodTable">
 		<tr>
 			<td>Food Name</td>
@@ -36,7 +36,7 @@
 	</div>
 	<br><br>
 	
-	<form:form action="pns-manage/add" method="post" modelAttribute="food">	
+	<form:form action="pns-manage-food/add" method="post" modelAttribute="food" enctype="multipart/form-data">	
 	<jsp:useBean id="food" class="com.neu.final_project.pojo.Food" scope="request"/>
 		Add food:
 		<table>
@@ -61,10 +61,18 @@
 				<td><form:input type="text" path="protein"/></td>
 			</tr>
 			<tr><td><form:input type="hidden" path="price" value="0"/><td></tr>
-		</table>
+			<tr>
+				<td>Upload a picture</td>
+				<td><form:input type="file" path="photo"/></td>
+			</tr>
 			<tr>
 				<td><input type="submit" value="          Submit food for admin review         " /></td>
-			</tr>	
+			</tr>
+			<tr>
+				<td>${errorMessage}</td>
+			</tr>
+		</table>
+				
 	</form:form>
 </body>
 </html>

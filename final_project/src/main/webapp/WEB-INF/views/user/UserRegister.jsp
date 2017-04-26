@@ -11,7 +11,7 @@
 
 <body>
 
-	<form:form action="/final_project/user/register" method="post" modelAttribute="user">
+	<form:form action="user-register" method="post" modelAttribute="user">
 		<jsp:useBean id="user" class="com.neu.final_project.pojo.User" scope="request"/>
 		<table>
 			<tr>
