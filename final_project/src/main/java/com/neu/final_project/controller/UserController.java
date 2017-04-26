@@ -1,7 +1,13 @@
 package com.neu.final_project.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -16,7 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
+import com.neu.final_project.dao.FoodDAO;
+import com.neu.final_project.dao.RecipeDAO;
 import com.neu.final_project.dao.UserDAO;
+import com.neu.final_project.pojo.Food;
+import com.neu.final_project.pojo.Recipe;
 import com.neu.final_project.pojo.User;
 import com.neu.final_project.validator.UserRegisterValidator;
 
@@ -31,6 +41,15 @@ public class UserController {
 	@Autowired
 	@Qualifier("userRegisterValidator")
 	UserRegisterValidator userRegisterValidator;
+	
+	@Autowired
+	@Qualifier("recipeDAO")
+	RecipeDAO recipeDAO;
+	
+	@Autowired
+	@Qualifier("foodDAO")
+	FoodDAO foodDAO;
+	
 	
 	@InitBinder
 	private void initBinder(WebDataBinder binder) {
@@ -81,11 +100,15 @@ public class UserController {
 	//process user login
 	@RequestMapping(value="/user/login", method=RequestMethod.POST)
 	public String loginUser(@RequestParam("loginName") String loginName, @RequestParam("password") String password, HttpServletRequest request){
-		User user = userDAO.getUser(loginName, password);
-		user.getAccountType();
-		HttpSession session = request.getSession();
-		session.setAttribute("user", user); 
-		return "/user/UserHomeIndex";
+		User user = userDAO.loginUser(loginName, password);
+				
+		if(user==null){
+			request.setAttribute("errorMessage", "User username/password pair not found");
+			return "user/UserLogin";
+		}else{
+			request.getSession().setAttribute("user", user);
+			return "user/UserHomeIndex";
+		}
 	}
 	
 	//calculate user nutrition
@@ -112,8 +135,7 @@ public class UserController {
 	//user log out
 	@RequestMapping(value="/user/logout", method=RequestMethod.GET)
 	public String logoutUser(HttpServletRequest request){
-		User user = (User) request.getSession().getAttribute("user");
-		
+		request.getSession().invalidate();
 		return "/user/UserLogout";
 	}
 	
@@ -128,5 +150,52 @@ public class UserController {
 	public void upgradeUser(){
 		
 	}
+	
+	//user save recipe and unwanted food
+	@RequestMapping(value="/user/saved-recipe-unwanted-food/add", method=RequestMethod.POST)
+	public String addUserRecipeAndFood(HttpServletRequest request){
+		User user = (User)request.getSession().getAttribute("user");
+		String[] favRecipes = request.getParameterValues("favRecipe");
+		String[] unwantedFood = request.getParameterValues("unwantedFood");	
+
+		int usrRecipeLen = user.getSavedRecipe().size();
+		int usrFoodLen = user.getUnwantedFood().size();
+		
+		Integer[] userRecipeIds = new Integer[usrRecipeLen];
+		Integer[] userFoodlIds = new Integer[usrFoodLen];
+		
+		for (int i=0; i<usrRecipeLen; i++){
+			userRecipeIds[i]  = user.getSavedRecipe().get(i).getRecipeId();
+		}		
+		for (int i=0; i<usrFoodLen; i++){
+			userFoodlIds[i]  = user.getUnwantedFood().get(i).getFoodId();
+		}
+		
+		List<Integer> rList = Arrays.asList(userRecipeIds);
+		List<Integer> fList = Arrays.asList(userFoodlIds);
+				
+		if(favRecipes!= null){
+			for(String s : favRecipes){
+				if (rList.contains(Integer.parseInt(s))==false){
+					Recipe recipe = recipeDAO.getRecipe(Integer.parseInt(s));
+					user.getSavedRecipe().add(recipe);
+				}				
+			}
+		}
+		
+		if(unwantedFood!= null){
+			for(String s : unwantedFood){
+				if (fList.contains(Integer.parseInt(s))==false){
+					Food food = foodDAO.getFood(Integer.parseInt(s));
+					user.getUnwantedFood().add(food);
+				}				
+			}
+		}
+		
+		userDAO.updateUser(user);
+						
+		return "redirect:/user/login";		
+	}
+	
 	
 }

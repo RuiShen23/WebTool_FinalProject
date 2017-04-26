@@ -1,26 +1,21 @@
 package com.neu.final_project.dao;
 
-import java.util.List;
-
 import org.hibernate.Query;
 import org.springframework.web.util.HtmlUtils;
 
-import com.neu.final_project.pojo.Account;
+import com.neu.final_project.pojo.Employee;
 import com.neu.final_project.pojo.User;
 
 
 public class UserDAO extends DAO{
 
 	//create new user
-	public String createUser(User user){
-		String status = "failed";
-		
+	public String createUser(User user){		
 		try {
-			begin();
-			
+			String status ="failed";
+			begin();			
 			getSession().save(user);
-			status = "success";
-			
+			status="success";
 			commit();
 			return status;
 		} finally {
@@ -28,8 +23,22 @@ public class UserDAO extends DAO{
 		}
 	}
 	
+	//get user by id
+	public User getUser(int id){
+		try {
+			begin();
+			Query query = getSession().createQuery("from User where id = :id");
+			query.setParameter("id", id);
+			User user = (User) query.uniqueResult();
+			commit();
+			return user;
+		} finally {
+			close();
+		}
+	}
+	
 	//user login
-	public User getUser(String loginName, String password){
+	public User loginUser(String loginName, String password){
 		String status = "failed"; 
 		
 		try {
@@ -50,6 +59,31 @@ public class UserDAO extends DAO{
 			
 			commit();
 			return user;
+		} finally {
+			close();
+		}
+	}
+	
+	//delete user
+	public void deleteUser(User user){
+		try {
+			begin();
+			getSession().delete(user);
+			commit();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			rollback();
+		}finally {
+			close();
+		}
+	}
+	
+	//update user
+	public void updateUser(User user){
+		try {
+			begin();
+			getSession().update(user);
+			commit();
 		} finally {
 			close();
 		}

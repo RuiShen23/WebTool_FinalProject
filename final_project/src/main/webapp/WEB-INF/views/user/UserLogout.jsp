@@ -8,6 +8,6 @@
 </head>
 <body>
 You've logged out...<br>
-Click <a href="/home.jsp">here</a> to go back to home page again.
+Click <a href="../home.jsp">here</a> to go back to home page again.
 </body>
 </html>

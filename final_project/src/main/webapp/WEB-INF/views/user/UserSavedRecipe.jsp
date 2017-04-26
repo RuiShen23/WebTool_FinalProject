@@ -8,21 +8,26 @@
 <title>Saved Recipe</title>
 </head>
 <body>
-	<table>
+	<table border="1">
 		<tr>
 			<td>Recipe Number</td>
 			<td>Food Name</td>
 			<td>Quantity</td>
 		</tr>
-		<tr>
-			<c:forEach var="recipe" items="${recipeList}" varStatus="s">
-				<td>${s}</td>
-				<c:forEach var="recipeItem" items="${recipe}">
+		<c:forEach var="recipe" items="${user.savedRecipe}" varStatus="s">
+			<tr>
+				<td>${s.count}</td>
+				<c:forEach var="recipeItem" items="${recipe.recipeItems}">
+				<tr>
+					<td> </td>
 					<td>${recipeItem.food.name}</td>
 					<td>${recipeItem.quantity}</td>
-				</c:forEach>			
-			</c:forEach>
-		</tr>
+				</tr>
+				</c:forEach>
+			</tr>
+			<tr>
+		</c:forEach>
+		
 	</table>
 </body>
 </html>

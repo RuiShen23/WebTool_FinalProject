@@ -25,7 +25,7 @@ public class FoodController {
 	FoodDAO foodDAO;
 
 	
-	@RequestMapping(value="/food/view/user-unwanted-food", method=RequestMethod.GET)
+	@RequestMapping(value="/food/user-unwanted-food/view", method=RequestMethod.GET)
 	public ModelAndView showUserUnwantedFood(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
 		User user = (User)request.getSession().getAttribute("user");
@@ -37,7 +37,7 @@ public class FoodController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/food/add/user-unwanted-food", method=RequestMethod.GET)
+	@RequestMapping(value="/food/user-unwanted-food/add", method=RequestMethod.GET)
 	public void addUserUnwantedFood(){
 		
 	}

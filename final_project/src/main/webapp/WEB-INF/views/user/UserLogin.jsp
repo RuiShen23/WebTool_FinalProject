@@ -13,6 +13,7 @@
             <tr>
                 <td>Email or Username:</td>
                 <td><input type="text" size="20" name="loginName"/></td>
+                <td>${errorMessage}</td>
             </tr>
             <tr>
                 <td>Password:</td>

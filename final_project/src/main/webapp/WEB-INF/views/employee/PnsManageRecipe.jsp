@@ -20,7 +20,7 @@
 		<option value="dinner">Dinner</option>
 	</select>
 	<div id="divRecipeTable">
-		<table id="recipeTable">
+		<table id="recipeTable" border="1">
 		<thead>
 		<tr>
 			<td>Recipe ID</td>
@@ -31,17 +31,7 @@
 		</tr>
 		</thead>
 		<tbody id="tbody">
-		<tr id="content" class="example">
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td></td>
-		</tr>	
+
 		</tbody>
 		</table>
 	</div>

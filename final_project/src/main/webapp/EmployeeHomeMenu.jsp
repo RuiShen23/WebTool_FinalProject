@@ -19,7 +19,7 @@
 	    
 	    <div id="employee-admin">
 		    <c:if test="${employee.accountType == 'admin'}">
-		    	<a href="employee/manage-accounts" target="contents">Manage Account</a><br> 
+		    	<a href="employee/admin-manage-accounts" target="contents">Manage Account</a><br> 
 		    	<a href="food/admin-manage" target="contents">Manage Product Price</a><br> 
 		    </c:if>
 	    </div>

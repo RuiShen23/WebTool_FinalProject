@@ -8,24 +8,24 @@
 <title>Unwanted Food</title>
 </head>
 <body>
-	<table>
+	<table border="1">
 		<tr>
 			<td>Food Name</td>
-			<td>Food Category</td>
 			<td>Calories</td>
 			<td>Fat</td>
 			<td>Carb</td>
 			<td>Protein</td>
 			<td>Price</td>
 		</tr>
-		<c:forEach var="food" items="${foodList}">
+		<c:forEach var="food" items="${user.unwantedFood}">
+		<tr>
 			<td>${food.name}</td>
-			<td>${food.foodCategory}</td>
 			<td>${food.calories}</td>
 			<td>${food.fat}</td>
 			<td>${food.carb}</td>
 			<td>${food.protein}</td>
 			<td>${food.price}</td>
+		</tr>
 		</c:forEach>
 	</table>
 </body>

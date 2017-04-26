@@ -33,15 +33,10 @@ public class RecipeDAO extends DAO {
 	//get recipe by category
 	public List<Recipe> getRecipeCategory(String category){
 		try {
-			begin();
-			
-			String hql = "from Recipe where category = :category";
-			
-			Query q = getSession().createQuery(hql);			
+			begin();		
+			Query q = getSession().createQuery("from Recipe where category = :category");			
 			q.setParameter("category", category);
-			
-			List<Recipe> recipeList = q.list();
-			
+			List<Recipe> recipeList = q.list();			
 			commit();
 			
 			return recipeList;
@@ -69,22 +64,18 @@ public class RecipeDAO extends DAO {
 	public Recipe getRecipeForMeal(String category, int calPerMeal) {
 		try {
 			begin();
-
-			String hql = "from Recipe where category = :category";
-			Query query = getSession().createQuery(hql);
+			Query query = getSession().createQuery("from Recipe where category = :category");
 			query.setParameter("category", category);
 			List<Recipe> recipeList = query.list();
 
 			List<Recipe> rl = new ArrayList<Recipe>();
 			for (Recipe recipe : recipeList) {
 				int recipeCal = (int)recipe.getTotalCalorie();
-				if (recipeCal-50<calPerMeal && calPerMeal<recipeCal+50){
+				if (recipeCal-100<calPerMeal && calPerMeal<recipeCal+100){
 					rl.add(recipe);
 				}				
 			}
-			
 			int rid = (int) (rl.size()*Math.random());
-		
 			Recipe recipe = rl.get(rid);
 			commit();
 			return recipe;
@@ -112,7 +103,7 @@ public class RecipeDAO extends DAO {
 		}
 	}
 
-	// display saved recipes of a user
+	// get saved recipes of a user
 	public List<Recipe> searchSavedRecipe(User user) {
 
 		try {
@@ -133,7 +124,8 @@ public class RecipeDAO extends DAO {
 			close();
 		}
 	}
-
+	
+	
 	// get available recipes for registered users (with/without unwantedFood)
 	public List<Recipe> getRegisteredUserRecipes(User user) {
 		try {

@@ -84,25 +84,32 @@
      </div>
      
      
+    <br><br><br>
      <div id="generated_menu">
-		<table id="menuTable">
+     <form action="/final_project/user/saved-recipe-unwanted-food/add" method="post">
+		<table id="menuTable" border="1">
 		<thead>
-		<tr>
-			<td>Recipe Number</td>
-			<td>Food Name</td>
-			<td>Quantity</td>
-			<td>Account Type</td>
-		</tr>
+			<tr>
+				<td>Add Favorite Recipe</td>
+				<td>Recipe Number</td>
+				<td>Category</td>
+				<td>Total Calorie</td>
+				<td>Cooking Instruction</td> 
+				<td>Food</td>
+				<td>Add Unwanted Food</td>
+				<td>Quantity</td>
+				<td>Calorie</td>
+			</tr>
 		</thead>
 		<tbody id="tbody">
-		<tr id="content" class="core_table">
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>	
-		</tbody>
+		</tbody>		
 		</table>
+		<br><br>
+		<div id="hint"></div>
+		<c:if test="${not empty user}">
+			<input type="submit" value="Submit"/>
+		</c:if>
+	</form>
 	</div>
      
      
@@ -136,37 +143,62 @@
 	     function getGeneratedMenu()
 	     {
 	    	 var xmlHttp = new XMLHttpRequest();
-	    	 var url = "${pageContext.request.contextPath}/recipe/daily/generate";
 	    	 var caloriesNumber = document.getElementById("caloriesNumber").value;
+	    	 if(caloriesNumber<700)
+	    	 {
+	    		 alert("Please enter a calorie number > 700");
+	    		 return;
+	    	 }
 		     var mealNumber = document.getElementById("mealNumber").value;
-		     var param = "caloriesNumber=" + caloriesNumber + "&mealNumber=" + mealNumber
-		     
+	    	 var url = "recipe/daily/generate?caloriesNumber=" + caloriesNumber + "&mealNumber=" + mealNumber;
+	    	 var userExist = <%=request.getAttribute("user")%>;
+
+	    	 var hint ='Please log in to enable Add Favorite Recipe and Unwanted Food function';
 		     xmlHttp.onreadystatechange=function()
 			 {
 			 	if(xmlHttp.readyState==4 && xmlHttp.status==200)
 			    {	      				      			
-			    	var menu = JSON.parse(xmlHttp.responseText);
-			    		
-			    	var trStr = '';
-			    	for (var i=0;i<menu.length;i++)
-			    	{		    			
-			    		trStr += '<tr class="example">';
-			    		trStr += '<td>' + menu[i].recipeItemId + '</td>';
-			    		for (var l=0;l<menu[i].length;l++)
-			    		{
-			    			trStr += '<td>' + menu[i][l].food.name + '</td>';
-				    		trStr += '<td>' + menu[i][l].quantity + '</td>';
-			    		}
-			    		trStr += '</tr>';  
+			 		var recipeList = JSON.parse(xmlHttp.responseText);		    		
+		    		var trStr = '';
+		    		
+		    		for (var i=0;i<recipeList.length;i++)
+		    		{		    			
+		    			trStr += '<tr class="core_table">';
+		    			trStr += '<td rowspan='+recipeList[i].recipeItems.length+'><input type="checkbox" name="favRecipe" value="'+recipeList[i].recipeId+'"/></td>';
+		    			trStr += '<td rowspan='+recipeList[i].recipeItems.length+'>' + (i+1) +'</td>';
+		    			trStr += '<td rowspan='+recipeList[i].recipeItems.length+'>' + recipeList[i].category + '</td>';
+		    			trStr += '<td rowspan='+recipeList[i].recipeItems.length+'>' + recipeList[i].totalCalorie + '</td>';
+		    			trStr += '<td rowspan='+recipeList[i].recipeItems.length+'>' + recipeList[i].cookingInstruction + '</td>';
+		    			trStr += '<td>' + recipeList[i].recipeItems[0].food.name + '</td>';
+		    			trStr += '<td><input type="checkbox" name="unwantedFood" value="'+recipeList[i].recipeItems[0].food.foodId+'"/>'+'</td>';
+		    			trStr += '<td>' + recipeList[i].recipeItems[0].quantity + '</td>';
+		    			trStr += '<td>' + recipeList[i].recipeItems[0].calories + '</td>';
+		    			trStr += '</tr>';  
+		    			for (var t=1;t<recipeList[i].recipeItems.length;t++)
+		    			{
+		    				trStr += '<td>' + recipeList[i].recipeItems[t].food.name + '</td>';
+		    				trStr += '<td> <input type="checkbox" name="unwantedFood" value="'+recipeList[i].recipeItems[t].food.foodId+'"/>'+'</td>';
+			    			trStr += '<td>' + recipeList[i].recipeItems[t].quantity + '</td>';
+			    			trStr += '<td>' + recipeList[i].recipeItems[t].calories + '</td>';
+			    			trStr += '</tr>';  
+		    			}
+		    		}
+		    		
+		    		
+		    		document.getElementById("tbody").innerHTML = trStr;
+		    				    		
+			    	if(userExist == null)
+			    	{
+			    		document.getElementById("hint").innerHTML = hint;
 			    	}
-			    	document.getElementById("tbody").innerHTML = trStr;
 			     }
 			 }
-		     xmlHttp.open("post",url,true);
-		     xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		 	 xmlHttp.setRequestHeader("Accept","application/json");
-		     xmlHttp.send(param);
+		     xmlHttp.open("get",url,true);
+		     xmlHttp.setRequestHeader("Content-type", "application/json");
+			 xmlHttp.setRequestHeader("Accept","application/json");
+		     xmlHttp.send(null);
 	     }
+	     
      </script>
 
 </body>

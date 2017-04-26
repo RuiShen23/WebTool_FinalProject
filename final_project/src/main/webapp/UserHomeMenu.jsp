@@ -10,10 +10,10 @@
 	<body>
 		Hello ${user.username}. <br>
 		<div id="basic_functions">
-		<a href="user/logout" target="contents">Log out</a><br><br>
-		<a href="recipe/view/user-saved-recipe" target="contents">Manage Saved Recipes</a><br>
-	    <a href="food/view/user-unwanted-food" target="contents">Manage Unwanted Food</a><br>
-	    <a href="order/view/user" target="contents">View Orders</a><br>
+		<a href="home.jsp" target="_top">Home page</a>
+		<a href="user/logout" target="_top">Log out</a><br><br>
+		<a href="recipe/user-saved-recipe/view" target="contents">Manage Saved Recipes</a><br>
+	    <a href="food/user-unwanted-food/view" target="contents">Manage Unwanted Food</a><br>
 	    <a href="recipe/create/user" target="contents">Create New Recipes</a><br>      
 	    </div>
 	    

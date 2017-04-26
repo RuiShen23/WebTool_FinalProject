@@ -1,16 +1,11 @@
 package com.neu.final_project.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -44,7 +39,7 @@ public class RecipeController {
 	RecipeItemDAO recipeItemDAO;
 	
 	//ajax - generate daily menu
-	@RequestMapping(value="/recipe/daily/generate", method=RequestMethod.POST)
+	@RequestMapping(value="/recipe/daily/generate", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Recipe> generateDailyRecipe(HttpServletRequest request){
 		
@@ -82,13 +77,14 @@ public class RecipeController {
 			recipeList.add(sneakRecipe);
 			recipeList.add(dinnerRecipe);
 		}
-		
+		request.setAttribute("recipeList", recipeList);
 		return recipeList;
 	}
 	
+	
 	//user view saved-recipe
 	@RequestMapping(value="/recipe/user-saved-recipe/view", method=RequestMethod.GET)
-	public ModelAndView showUserUnwantedFood(HttpServletRequest request){
+	public ModelAndView showUserSavedRecipe(HttpServletRequest request){
 		ModelAndView modelAndView = new ModelAndView();
 		User user = (User)request.getSession().getAttribute("user");
 		Set<Recipe> recipeList = (Set<Recipe>) user.getSavedRecipe();
@@ -119,7 +115,7 @@ public class RecipeController {
 	
 	//process pns create new recipe request
 	@RequestMapping(value="/recipe/pns-manage/create", method=RequestMethod.POST)
-	public void pnsCreateRecipe(Recipe recipe, HttpServletRequest request){
+	public String pnsCreateRecipe(Recipe recipe, HttpServletRequest request){
 
 		String[] foodIds = request.getParameterValues("foodIds");
 					
@@ -136,7 +132,7 @@ public class RecipeController {
 		}	
 		
 		recipeDAO.addRecipe(recipe);
-		
+		return "employee/PnsManageRecipe";
 	}
 	
 	@RequestMapping(value="/recipe/pns-manage/modify", method=RequestMethod.GET)

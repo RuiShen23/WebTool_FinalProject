@@ -41,7 +41,7 @@
 	<br><br><br>
 	Add PNS:
 	<div id="divAddPns">
-		<form:form action="/final_project/employee/manage-accounts/add" method="post" modelAttribute="employee">
+		<form:form action="admin-manage-accounts/add" method="post" modelAttribute="employee">
 			<jsp:useBean id="employee" class="com.neu.final_project.pojo.Employee" scope="request" />
 			<table>
 				<tr>
@@ -107,7 +107,7 @@
 		    		for (var i=0;i<accountList.length;i++)
 		    		{		    			
 		    			trStr += '<tr class="example">';
-		    			trStr += '<td>' + accountList[i].id + '</td>';
+		    			trStr += '<td>' + '<a href="/final_project/employee/admin-manage-accounts/view?accountId='+ accountList[i].id + '">' + accountList[i].id +'</a>'+ '</td>';		    			
 		    			trStr += '<td>' + accountList[i].username + '</td>';
 		    			trStr += '<td>' + accountList[i].email + '</td>';
 		    			trStr += '<td>' + accountList[i].accountType + '</td>';

@@ -1,28 +1,26 @@
 package com.neu.final_project.controller;
 
-import java.util.List;
+import java.lang.ProcessBuilder.Redirect;
+import java.util.PrimitiveIterator.OfDouble;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.HtmlUtils;
 
-import com.neu.final_project.dao.AccountDAO;
 import com.neu.final_project.dao.EmployeeDAO;
 import com.neu.final_project.dao.UserDAO;
-import com.neu.final_project.pojo.Account;
 import com.neu.final_project.pojo.Employee;
+import com.neu.final_project.pojo.User;
 import com.neu.final_project.validator.EmployeeRegisterValidator;
 
 
@@ -32,6 +30,10 @@ public class EmployeeController {
 	@Autowired
 	@Qualifier("employeeDAO")
 	EmployeeDAO emplyeeDAO;
+	
+	@Autowired
+	@Qualifier("userDAO")
+	UserDAO userDAO;
 	
 	@Autowired
 	@Qualifier("employeeRegisterValidator")
@@ -48,9 +50,8 @@ public class EmployeeController {
 
 	// process employee login
 	@RequestMapping(value = "/employee/login", method = RequestMethod.POST)
-	public String loginEmployee(@RequestParam("username") String username, @RequestParam("password") String password,
-			HttpServletRequest request) {
-		Employee employee = emplyeeDAO.getEmployee(username, password);
+	public String loginEmployee(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletRequest request) {
+		Employee employee = emplyeeDAO.loginEmployee(username, password);
 		if(employee==null){
 			request.setAttribute("errorMessage", "Employee username/password pair not found");
 			return "employee/EmployeeLogin";
@@ -62,13 +63,13 @@ public class EmployeeController {
 	}	
 
 	// redirect to admin manage account page
-	@RequestMapping(value = "/employee/manage-accounts", method = RequestMethod.GET)
+	@RequestMapping(value = "/employee/admin-manage-accounts", method = RequestMethod.GET)
 	public String showRegisterPage() {
 		return "employee/AdminManageAccount";
 	}
 
 	// process admin add pns request
-	@RequestMapping(value = "/employee/manage-accounts/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/employee/admin-manage-accounts/add", method = RequestMethod.POST)
 	public ModelAndView registerUser(@ModelAttribute("employee") Employee employee, BindingResult result) {
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -98,5 +99,39 @@ public class EmployeeController {
 		return modelAndView;
 	}
 	
+	//redirect to view account detail page
+	@RequestMapping(value="/employee/admin-manage-accounts/view", method = RequestMethod.GET)
+	public ModelAndView viewAccountDetailPage(HttpServletRequest request){
+		ModelAndView modelAndView = new ModelAndView();
+		Employee employee = emplyeeDAO.getEmployee(Integer.parseInt(request.getParameter("accountId")));
+		if (employee==null){
+			User user = userDAO.getUser(Integer.parseInt(request.getParameter("accountId")));
+			modelAndView.addObject("user",user);
+			modelAndView.setViewName("employee/ViewUserAccountDetail");
+		}else{
+			modelAndView.addObject("employee",employee);
+			modelAndView.setViewName("employee/ViewEmployeeAccountDetail");
+		}
+		
+		return modelAndView;		
+	}
 	
+	//process modify employee account request
+	@RequestMapping(value = "/employee/admin-manage-accounts/manage-employee", method = RequestMethod.POST)
+	public String manageEmployee(Employee employee, HttpServletRequest request){
+		String action = request.getParameter("update");
+		if (action.equals("Submit Changes")){
+			emplyeeDAO.updateEmployee(employee);
+		}else{
+			emplyeeDAO.deleteEmployee(employee);
+		}
+		return "redirect:/employee/admin-manage-accounts";
+	}
+	
+	//process modify user account request
+	@RequestMapping(value = "/employee/admin-manage-accounts/manage-user", method = RequestMethod.POST)
+	public String manageUser(User user){
+		userDAO.deleteUser(user);
+		return "redirect:/employee/admin-manage-accounts";
+	}
 }

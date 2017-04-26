@@ -9,24 +9,36 @@ import com.neu.final_project.pojo.User;
 public class EmployeeDAO extends DAO{
 	
 		//create new pns
-		public String createPns(Employee employee){
-			String status = "failed";
-			
+		public String createPns(Employee employee){			
 			try {
-				begin();
-				
+				String status="failed";
+				begin();			
 				getSession().save(employee);
-				status = "success";
-				
 				commit();
+				status="success";
 				return status;
 			} finally {
 				close();
 			}
 		}
 		
+		//get employee by id
+		public Employee getEmployee(int id){
+			try {
+				begin();
+				Query query = getSession().createQuery("from Employee where id = :id");
+				query.setParameter("id", id);
+				Employee employee = (Employee) query.uniqueResult();
+				commit();
+				return employee;
+			} finally {
+				close();
+			}
+		}
+		
+		
 		//employee login
-		public Employee getEmployee(String username, String password){			
+		public Employee loginEmployee(String username, String password){			
 			try {
 				begin();
 				
@@ -39,6 +51,31 @@ public class EmployeeDAO extends DAO{
 				Employee employee = (Employee) q.uniqueResult();
 				commit();
 				return employee;
+			} finally {
+				close();
+			}
+		}
+		
+		//delete employee
+		public void deleteEmployee(Employee employee){
+			try {
+				begin();
+				getSession().delete(employee);
+				commit();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				rollback();
+			}finally {
+				close();
+			}
+		}
+		
+		//update employee
+		public void updateEmployee(Employee employee){
+			try {
+				begin();
+				getSession().update(employee);
+				commit();
 			} finally {
 				close();
 			}
