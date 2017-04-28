@@ -11,7 +11,7 @@
 <body>
 	View all food:
 	<div id="divFoodTable">
-	<form method="post" action="employee/pns-manage-food/modify">
+	<form method="post" action="pns-manage-food/modify">
 		<table id="foodTable">
 		<tr>
 			<td>Food Name</td>

@@ -121,7 +121,7 @@ public class RecipeController {
 	}
 	
 	//redirect to PnsManageRcipe page
-	@RequestMapping(value="/employee/pns-manage-recipe")
+	@RequestMapping(value="/employee/pns-manage-recipe", method=RequestMethod.GET)
 	public String showPnsManageRecipePage(HttpServletRequest request){
 		request.setAttribute("allFoodList", foodDAO.showAllFood());
 		return "employee/PnsManageRecipe";
@@ -137,6 +137,7 @@ public class RecipeController {
 		 
 		return recipeList;
 	}
+	
 	
 	//redirect to PNS create recipe page
 	@RequestMapping(value="/employee/pns-manage-recipe/create", method=RequestMethod.GET)
@@ -163,7 +164,7 @@ public class RecipeController {
 		}	
 		
 		recipeDAO.addRecipe(recipe);
-		return "employee/PnsManageRecipe";
+		return "redirect:/employee/pns-manage-recipe";
 	}
 	
 	@RequestMapping(value="/employee/pns-manage-recipe/modify", method=RequestMethod.GET)

@@ -22,10 +22,11 @@
 		    </c:if> 
 	    </div>
 	    
-	    <div id="premier_user_functions">
+	    <!--<div id="premier_user_functions">
 		    <c:if test="${user.accountType == 'premier'}">
 		    	<a href="user/generate-weekly-recipe" target="contents">Generate Weekly Menu</a><br> 
 		    </c:if>
+		 -->
 	    </div>
 	</body>
 </html>

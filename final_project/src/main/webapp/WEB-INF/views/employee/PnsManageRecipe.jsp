@@ -41,7 +41,7 @@
 	<div id="newRecipe">
 	Create New Recipe
 	<jsp:useBean id="recipe" class="com.neu.final_project.pojo.Recipe" scope="request"/>
-	<form:form action="employee/pns-manage-recipe/create" method="post" modelAttribute="recipe">
+	<form:form action="/final_project/employee/pns-manage-recipe/create" method="post" modelAttribute="recipe">
 	<select name="category">
 		<option value="breakfast">Breakfast</option>
 		<option value="lunch">Lunch</option>
@@ -111,7 +111,7 @@
 	    {
 		   	var xmlHttp = new XMLHttpRequest();
 		   	var recipeCategory = document.getElementById("recipeCategory").value;
-		   	var url = "pns-manage-recipe/view-by-category?recipeCategory="+recipeCategory;
+		   	var url = "/final_project/employee/pns-manage-recipe/view-by-category?recipeCategory="+recipeCategory;
 		   	
 		   	xmlHttp.onreadystatechange=function()
 		    {

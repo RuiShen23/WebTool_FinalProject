@@ -27,9 +27,10 @@ public class EmployeeLoginInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		Employee employee = (Employee)request.getSession().getAttribute("employee");
-		if(employee==null)
+		if(employee==null){
 			return false;
-		
+		}	
+
 		return true;
 	}
 

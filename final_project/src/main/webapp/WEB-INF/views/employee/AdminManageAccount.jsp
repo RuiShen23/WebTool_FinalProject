@@ -102,7 +102,7 @@
 		    		for (var i=0;i<accountList.length;i++)
 		    		{		    			
 		    			trStr += '<tr class="example">';
-		    			trStr += '<td>' + '<a href="admin-manage-accounts/view?accountId='+ accountList[i].id + '">' + accountList[i].id +'</a>'+ '</td>';		    			
+		    			trStr += '<td>' + '<a href="/final_project/employee/admin-manage-accounts/view?accountId='+ accountList[i].id + '">' + accountList[i].id +'</a>'+ '</td>';		    			
 		    			trStr += '<td>' + accountList[i].username + '</td>';
 		    			trStr += '<td>' + accountList[i].email + '</td>';
 		    			trStr += '<td>' + accountList[i].accountType + '</td>';

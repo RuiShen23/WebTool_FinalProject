@@ -25,11 +25,11 @@
 	
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/user/*"/>
+			<mvc:mapping path="/user/**"/>
 			<beans:bean class="com.neu.final_project.security.UserLoginInterceptor" />
 		</mvc:interceptor>	
 		<mvc:interceptor>
-			<mvc:mapping path="/employee/*"/>
+			<mvc:mapping path="/employee/**"/>
 			<beans:bean class="com.neu.final_project.security.EmployeeLoginInterceptor" />
 		</mvc:interceptor>	
 	</mvc:interceptors>
